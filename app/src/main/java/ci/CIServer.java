@@ -156,15 +156,11 @@ public class CIServer implements HttpHandler {
 			JSONObject root = new JSONObject();
 			if(isBuildSuccessful.get(i).booleanValue() && areTestsSuccessful.get(i).booleanValue()) {
 				root.put("state", "success");
-				root.put("description", "Build/Test successful");
+				root.put("description", "Build/Tests successful");
 			}
-			else if(!isBuildSuccessful.get(i).booleanValue()) {
+			else if(!isBuildSuccessful.get(i).booleanValue() || !areTestsSuccessful.get(i).booleanValue()) {
 				root.put("state", "failure");
-				root.put("description", "Build failed!");
-			}
-			else if(areTestsSuccessful.get(i).booleanValue()) {
-				root.put("state", "failure");
-				root.put("description", "Tests failed!");
+				root.put("description", "Build/Tests failed!");
 			}
 			else {
 				root.put("state", "error");
@@ -284,7 +280,7 @@ public class CIServer implements HttpHandler {
 
 			String log = processCommit(owner, repo, buildLogsDir, targetCommitDir, sha, action);
 
-			isSuccessful.add(log.contains("BUILD SUCCESSFUL"));		//true if contains given string
+			isSuccessful.add(!log.contains("FAILED"));
 		}
 
 		try { FileIO.deleteFolder(targetDir); }
