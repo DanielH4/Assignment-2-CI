@@ -50,7 +50,7 @@ public class CIServerTest {
         try (FileReader reader = new FileReader("src/test/testpayload.json")) {
             //Read JSON file
             JSONObject obj = (JSONObject) jsonParser.parse(reader);
-            assertEquals(2, CIServer.getCommits(obj).size());
+            assertEquals(1, CIServer.getCommits(obj).size());
         } catch (IOException | ParseException e ) {
             e.printStackTrace();
         }
