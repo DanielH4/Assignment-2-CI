@@ -69,3 +69,4 @@ The build history can be found in the root directory of the generated ngrok url.
 ## Statement of Contributions
 
 * Daniel Halvarsson: server infrastructure, building/testing commits, creating commit statuses
+* Yu Zhou: server email notification
