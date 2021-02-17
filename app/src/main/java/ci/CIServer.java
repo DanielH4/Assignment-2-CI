@@ -316,6 +316,7 @@ public class CIServer implements HttpHandler {
 	 * @param owner name of repository owner.
 	 * @param repo name of repository.
 	 * @param buildLogsDir directory in which build logs are stored.
+	 * @param dir directory of commit
 	 * @param sha string of the sha of the commit.
 	 * @param action determines whether commit should be built or tested.
 	 * @return the log produced while testing or building commit.
