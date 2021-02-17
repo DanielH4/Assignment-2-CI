@@ -71,3 +71,4 @@ The build history can be found in the root directory of the generated ngrok url.
 * Daniel Halvarsson: server infrastructure, building/testing commits, creating commit statuses
 * Niklas Wessman: File input/output, construction and formating of build logs, documentation, etc.
 * Yu Zhou: server email notification
+* Hannes Sundin: Unit testing.
