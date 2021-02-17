@@ -159,17 +159,13 @@ public class CIServer implements HttpHandler {
 				root.put("state", "success");
 				root.put("description", "Build/Tests successful");
 			}
-			else if(!isBuildSuccessful.get(i).booleanValue() && !areTestsSuccessful.get(i).booleanValue()) {
+			else if(isBuildSuccessful.get(i) == null && areTestsSuccessful.get(i) == null) {
 				root.put("state", "error");
 				root.put("description", "Something went wrong with setting the commit status.");
 			}
-			else if(!isBuildSuccessful.get(i).booleanValue()) {
-				root.put("state", "failure");
-				root.put("description", "Build failed!");
-			}
 			else {
 				root.put("state", "failure");
-				root.put("description", "Tests failed!");
+				root.put("description", "Build/Tests failed!");
 			}
 
 			String body = root.toJSONString();
