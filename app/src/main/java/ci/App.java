@@ -22,7 +22,7 @@ public class App {
 		for(int i = 0; i < args.length; i++) {
 			switch(args[i]) {
 				case "--address":		address = args[++i]
-										break;
+										break
 				case "--port":			port = args[++i];
 										break;
 				case "--target_dir":	targetDir = args[++i];
