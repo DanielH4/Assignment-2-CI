@@ -456,10 +456,16 @@ public class CIServer implements HttpHandler {
 		emailMap.put("audreyeternal","yuzho@kth.se") ;
 		emailMap.put("nwessman","nwessman@kth.se") ;
 		emailMap.put("HannesSundin","hannessu@kth.se") ;
+		emailMap.put("Jacarte","javierca@kth.se") ;
 		String email = emailMap.get(owner);
 		return email;
 
 	}
+	/**
+	 * 
+	 * @param obj the JSONObject body, contains the push information
+	 * @return the pusher of the push event
+	 */
 	public static String getPusher(JSONObject obj){
 		JSONObject pusherObj = (JSONObject)obj.get("pusher");		
 		String pusher = (String)pusherObj.get("name");
