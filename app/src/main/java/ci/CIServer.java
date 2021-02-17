@@ -159,13 +159,17 @@ public class CIServer implements HttpHandler {
 				root.put("state", "success");
 				root.put("description", "Build/Tests successful");
 			}
-			else if(!isBuildSuccessful.get(i).booleanValue() || !areTestsSuccessful.get(i).booleanValue()) {
-				root.put("state", "failure");
-				root.put("description", "Build/Tests failed!");
-			}
-			else {
+			else if(!isBuildSuccessful.get(i).booleanValue() && !areTestsSuccessful.get(i).booleanValue()) {
 				root.put("state", "error");
 				root.put("description", "Something went wrong with setting the commit status.");
+			}
+			else if(!isBuildSuccessful.get(i).booleanValue()) {
+				root.put("state", "failure");
+				root.put("description", "Build failed!");
+			}
+			else {
+				root.put("state", "failure");
+				root.put("description", "Tests failed!");
 			}
 
 			String body = root.toJSONString();
@@ -325,7 +329,7 @@ public class CIServer implements HttpHandler {
 
 		String option = null; //option used with gradle build system. Determines whether repo is built or tests are run
 		switch(action) {
-			case BUILD:	option = "build";
+			case BUILD:	option = "build -x test";	//excludes tests. focuses on compilation
 			case TEST:	option = "test";
 		}
 
@@ -350,7 +354,7 @@ public class CIServer implements HttpHandler {
 			System.exit(0);
 		}
 
-		if(action == Action.BUILD)
+		if(action == Action.TEST)
 			FileIO.constructLog(sha, log, buildLogsDir+'/', "https://github.com/"+owner+"/"+repo);
 
 		process.destroy();	//clean up created process
