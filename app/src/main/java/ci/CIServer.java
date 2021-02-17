@@ -82,7 +82,7 @@ public class CIServer implements HttpHandler {
 
 		createCommitStatuses(getRepo(body), getOwner(body), commits, isBuildSuccessful, areTestsSuccessful, GITHUB_TOKEN);
 
-		sendEmail(getOwner(body),commits, isBuildSuccessful);
+		sendEmail(getPusher(body),commits, isBuildSuccessful);
 
 		exchange.sendResponseHeaders(200, 0);
 		return;
@@ -459,5 +459,10 @@ public class CIServer implements HttpHandler {
 		String email = emailMap.get(owner);
 		return email;
 
+	}
+	public static String getPusher(JSONObject obj){
+		JSONObject pusherObj = (JSONObject)obj.get("pusher");		
+		String pusher = (String)pusherObj.get("name");
+		return pusher;
 	}
 }
