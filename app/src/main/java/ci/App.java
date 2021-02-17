@@ -51,7 +51,8 @@ public class App {
             server.start();                                                     
         }                                                                       
         catch(IOException e) {                                                  
-			System.out.println("Failed to instantiate server.");                
+			System.err.println("Failed to instantiate server.");                
+			System.exit(0);
         } 
     }
 }
