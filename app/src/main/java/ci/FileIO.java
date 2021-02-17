@@ -60,6 +60,7 @@ public class FileIO {
         
         // Create the HTML file that represents this build
         // It links to the commit on github by its sha and link to repo
+		buildLog = buildLog.replaceAll("\n", "</br>");
         String logHTML = createLogHTML(sha, buildLog, link);
         int fileNumber = nameOffset + 1;
         String filename = fileNumber + ".html";

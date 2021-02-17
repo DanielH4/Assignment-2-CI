@@ -143,7 +143,7 @@ public class CIServer implements HttpHandler {
 				conn.setRequestMethod("POST");
 			}
 			catch(ProtocolException e) {
-				System.out.println("Failed to set POST request method.");
+				System.err.println("Failed to set POST request method.");
 				System.exit(0);
 			}
 
@@ -178,7 +178,7 @@ public class CIServer implements HttpHandler {
 				os.close();
 			}
 			catch(IOException e) {
-				System.out.println("Could not write POST request body.");
+				System.err.println("Could not write POST request body.");
 				System.exit(0);
 			}
 
@@ -187,7 +187,7 @@ public class CIServer implements HttpHandler {
 				status = conn.getResponseCode();
 			}
 			catch(IOException e) {
-				System.out.println("Failed to get connection response code.");
+				System.err.println("Failed to get connection response code.");
 				System.exit(0);
 			}
 
@@ -210,7 +210,7 @@ public class CIServer implements HttpHandler {
 			url = new URL("https://api.github.com/repos/"+owner+"/"+repo+"/statuses/"+sha);
 		}
 		catch(MalformedURLException e) {
-			System.out.println("Provided URL is malformed");
+			System.err.println("Provided URL is malformed");
 			System.exit(0);
 		}
 
@@ -230,7 +230,7 @@ public class CIServer implements HttpHandler {
 			conn = (HttpURLConnection)url.openConnection();
 		}
 		catch(IOException e) {
-			System.out.println("Failed to establish HTTP connection.");
+			System.err.println("Failed to establish HTTP connection.");
 			System.exit(0);
 		}
 
@@ -305,7 +305,7 @@ public class CIServer implements HttpHandler {
 			Runtime.getRuntime().exec("git clone "+repoName+" "+targetDir);
 		}
 		catch(IOException e) {
-			System.out.println("Failed to clone github repository: "+repoName+" to directory: "+targetDir);
+			System.err.println("Failed to clone github repository: "+repoName+" to directory: "+targetDir);
 			System.exit(0);
 		}
 	}
@@ -336,13 +336,19 @@ public class CIServer implements HttpHandler {
 			process = Runtime.getRuntime().exec("gradle -p "+dir+" clean "+option+" --no-daemon");
 		}
 		catch(IOException e) {
-			System.out.println("Failed to "+option+" "+dir);
+			System.err.println("Failed to "+option+" "+dir);
 			System.exit(0);
 		}
 
 		//retrieve output log
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		String log = reader.lines().collect(Collectors.joining());
+
+		String log = new String();
+		try { for(String line; (line = reader.readLine()) != null; log += line+'\n'); }
+		catch(IOException e) {
+			System.err.println("Failed to create log string from build output.");
+			System.exit(0);
+		}
 
 		if(action == Action.BUILD)
 			FileIO.constructLog(sha, log, buildLogsDir+'/', "https://github.com/"+owner+"/"+repo);
@@ -363,7 +369,7 @@ public class CIServer implements HttpHandler {
 			Runtime.getRuntime().exec("git --git-dir "+dir+"/.git reset --hard "+sha);
 		}
 		catch(IOException e) {
-			System.out.println("Failed to set repo to version: "+sha);
+			System.err.println("Failed to set repo to version: "+sha);
 			System.exit(0);
 		}
 	}
@@ -407,7 +413,7 @@ public class CIServer implements HttpHandler {
             System.out.println("Mail Sent Successfully");
 
         } catch (MessagingException e) {
-            System.out.println("Failed to send email.");
+            System.err.println("Failed to send email.");
 			System.exit(0);
         }
     }
