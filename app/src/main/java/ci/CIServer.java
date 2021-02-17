@@ -342,7 +342,13 @@ public class CIServer implements HttpHandler {
 
 		//retrieve output log
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		String log = reader.lines().collect(Collectors.joining());
+
+		String log = new String();
+		try { for(String line; (line = reader.readLine()) != null; log += line+'\n'); }
+		catch(IOException e) {
+			System.err.println("Failed to create log string from build output.");
+			System.exit(0);
+		}
 
 		if(action == Action.BUILD)
 			FileIO.constructLog(sha, log, buildLogsDir+'/', "https://github.com/"+owner+"/"+repo);
