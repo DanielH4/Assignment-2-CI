@@ -138,6 +138,7 @@ public class FileIO {
      * 
      * @param sha SHA code for the github commit
      * @param buildLog The buildlog for the commit
+     * @param link link to github repository
      * @return The HTML page as a string with the build information, sha, and link to github.
      */
     public static String createLogHTML(String sha, String buildLog, String link){
