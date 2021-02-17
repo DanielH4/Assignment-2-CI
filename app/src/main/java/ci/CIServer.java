@@ -120,6 +120,7 @@ public class CIServer implements HttpHandler {
 	 * @param owner name of owner of repository
 	 * @param commits a JSONArray object of the commits in the push event
 	 * @param isBuildSuccessful an arraylist of booleans representing whether the commit of an index built successfully
+	 * @param areTestsSuccessful an arraylist of booleans representing whether the tests of a commit passed
 	 * @param github_token used to authorize the Github user making the request (user hosting the server).
 	 * */
 	public static void createCommitStatuses(String repo, String owner, JSONArray commits, 
@@ -239,6 +240,9 @@ public class CIServer implements HttpHandler {
 	/**
 	 * Returns a JSONArray object of commits from the JSON body of a POST request
 	 * See Github push event API for detailed info
+	 *
+	 * @param body root body of a JSONObject
+	 * @return an array of commits in a push event
 	 * */
 	public static JSONArray getCommits(JSONObject body) {
 		JSONArray commits = (JSONArray)body.get("commits");
@@ -249,6 +253,7 @@ public class CIServer implements HttpHandler {
 	 * Builds or tests each commit sent in a push request.
 	 *
 	 * @param commits a JSONArray of the commits in a push request
+	 * @param buildLogsDir directory in which build logs are stored 
 	 * @param owner name of owner of the repository
 	 * @param repo name of the repository
 	 * @param action represents the action to take for a commit. Can be BUILD or TEST.
@@ -308,7 +313,9 @@ public class CIServer implements HttpHandler {
 	/**
 	 * Builds or tests an individual commit.
 	 *
-	 * @param dir name of directory where repository exists.
+	 * @param owner name of repository owner.
+	 * @param repo name of repository.
+	 * @param buildLogsDir directory in which build logs are stored.
 	 * @param sha string of the sha of the commit.
 	 * @param action determines whether commit should be built or tested.
 	 * @return the log produced while testing or building commit.
