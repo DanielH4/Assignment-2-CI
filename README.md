@@ -71,7 +71,7 @@ The build history can be found in the root directory of the generated ngrok url.
 > The main page of the build logs present all the commits by the date they were tested, ordered from newest to oldest.
 > Click one a commit to get to the build info.
 
-<img height="300px" src="./res/images/buildLogFile.png" />
+<img height="600px" src="./res/images/buildLogFile.png" />
 
 > Each build log is presented at the top of the page with a link to its commit on Github.
 > Then follows the status of build and tests.
