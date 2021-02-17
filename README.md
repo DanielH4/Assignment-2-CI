@@ -66,6 +66,12 @@ to build with wrapper. This is used by the server to verify that project version
 
 The build history can be found in the root directory of the generated ngrok url.
 
+## Pass with distinction properties
+
+* **P6**: :heavy_check_mark:
+* **P7**: We have _both_ commit status and email notification, when only one of them were needed as per **P4**. Our build logs are formated as HTML with links to their respective commit, when we only needed to present them in raw text.
+* **P8**: :heavy_check_mark:
+
 ## Statement of Contributions
 
 * Daniel Halvarsson: server infrastructure, building/testing commits, creating commit statuses
